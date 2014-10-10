@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * EmailManager installation functions.
+ */
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function emailmanager_uninstall() {
+  // Remove the SMTP library value
+  if (strpos(variable_get('smtp_library', ''), 'emailmanager')) {
+    variable_del('smtp_library');
+  }
+  variable_del('emailmanager_enabled');
+  variable_del('emailmanager_api_key');
+}
+
+function emailmanager_enable() {
+  mailsystem_set(array('default-system' => 'EmailmanagerMailSystem'));
+}
+
+function emailmanager_disable() {
+  mailsystem_clear(array('default-system' => 'EmailmanagerMailSystem'));
+}
